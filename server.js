@@ -6,7 +6,7 @@ require('dotenv').config();
 const app = express();
 
 var corsOptions = {
-  // We accept front any origin
+  // We accept from any origin
   origin: "*"
 };
 
@@ -44,6 +44,8 @@ app.get("/", (req, res) => {
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/item.routes")(app);
+require("./app/routes/family.routes")(app);
+require("./app/routes/biotope.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

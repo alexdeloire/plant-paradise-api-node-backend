@@ -34,10 +34,10 @@ module.exports = function(app) {
   router.put("/:id",[authJwt.verifyToken], items.update);
 
   // Delete a Item with id
-  router.delete("/:id",[authJwt.verifyToken], items.delete);
+  router.delete("/:id",[authJwt.verifyToken, authJwt.isModerator], items.delete);
 
   // Delete all Items
-  router.delete("/",[authJwt.verifyToken], items.deleteAll);
+  router.delete("/",[authJwt.verifyToken, authJwt.isAdmin], items.deleteAll);
 
   app.use("/api/items", router);
 };
