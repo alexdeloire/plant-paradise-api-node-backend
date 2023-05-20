@@ -37,7 +37,23 @@ exports.signup = (req, res) => {
               return;
             }
 
-            res.send({ message: "User was registered successfully!" });
+            // Directly login after signup
+            var token = jwt.sign({ id: user.id }, config.secret, {
+              expiresIn: 86400 // 24 hours
+            });
+            
+            var authorities = [];
+            for (let i = 0; i < roles.length; i++) {
+              authorities.push("ROLE_" + roles[i].name.toUpperCase());
+            }
+
+            res.send({ user: {
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            roles: authorities,
+            accessToken: token}, 
+            message: "User was registered successfully!" });
           });
         }
       );
@@ -54,8 +70,20 @@ exports.signup = (req, res) => {
             res.status(500).send({ message: err });
             return;
           }
+          // Directly login after signup
+          var token = jwt.sign({ id: user.id }, config.secret, {
+            expiresIn: 86400 // 24 hours
+          });
 
-          res.send({ message: "User was registered successfully!" });
+          var authorities = ["ROLE_USER"];
+
+          res.send({ user: {
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            roles: authorities,
+            accessToken: token}, 
+            message: "User was registered successfully!" });
         });
       });
     }
