@@ -11,21 +11,23 @@ const getPagination = (page, size) => {
 // Create and Save a new Item
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.title) {
-    res.status(400).send({ message: "Content can not be empty!" });
+  if (!req.body.title || !req.body.biotope || !req.body.family || !req.body.description) {
+    res.status(400).send({ message: "Title, biotope, family and description are required fields." });
     return;
   }
 
-  // Create a Item
+  // Create an Item
   const item = new Item({
     title: req.body.title,
     description: req.body.description,
     published: req.body.published ? req.body.published : false,
+    family: req.body.family,
+    biotope: req.body.biotope
   });
 
   // Save Item in the database
   item
-    .save(item)
+    .save()
     .then((data) => {
       res.send(data);
     })
@@ -46,7 +48,7 @@ exports.findAll = (req, res) => {
 
   const { limit, offset } = getPagination(page, size);
 
-  Item.paginate(condition, { offset, limit })
+  Item.paginate(condition, { offset, limit, populate: "family biotope" })
     .then((data) => {
       res.send({
         totalItems: data.totalDocs,
@@ -68,10 +70,15 @@ exports.findOne = (req, res) => {
   const id = req.params.id;
 
   Item.findById(id)
+    .populate({ path: 'family', select: '_id' }) // populate the 'family' field only with '_id'
+    .populate({ path: 'biotope', select: '_id'}) // populate the 'biotope' field only with '_id'
     .then((data) => {
       if (!data)
         res.status(404).send({ message: "Not found Item with id " + id });
-      else res.send(data);
+      else{
+      data.family = data.family._id;
+      data.biotope = data.biotope._id;
+      res.send(data);}
     })
     .catch((err) => {
       res
@@ -149,7 +156,7 @@ exports.findAllPublished = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
 
-  Item.paginate({ published: true }, { offset, limit })
+  Item.paginate({ published: true }, { offset, limit, populate: "family biotope" })
     .then((data) => {
       res.send({
         totalItems: data.totalDocs,
@@ -168,15 +175,14 @@ exports.findAllPublished = (req, res) => {
 
 // Find all unpublished Items
 exports.findAllUnpublished = (req, res) => {
-
   const { page, size, title } = req.query;
   var condition = title
     ? { title: { $regex: new RegExp(title), $options: "i" }, published: false }
     : { published: false };
-  
+
   const { limit, offset } = getPagination(page, size);
 
-  Item.paginate(condition, { offset, limit })
+  Item.paginate(condition, { offset, limit, populate: "family biotope"})
     .then((data) => {
       res.send({
         totalItems: data.totalDocs,

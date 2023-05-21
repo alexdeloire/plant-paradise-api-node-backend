@@ -1,9 +1,17 @@
 module.exports = (mongoose, mongoosePaginate) => {
-  var schema = mongoose.Schema(
+  const schema = mongoose.Schema(
     {
       title: String,
       description: String,
-      published: Boolean
+      published: Boolean,
+      family: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Family"
+      },
+      biotope: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Biotope"
+      }
     },
     { timestamps: true }
   );
