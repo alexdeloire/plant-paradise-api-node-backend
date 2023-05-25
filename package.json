@@ -1,7 +1,7 @@
 {
-  "name": "node-js-jwt-auth-mongodb",
+  "name": "node-js-jwt-auth-mongodb-crud",
   "version": "1.0.0",
-  "description": "Node.js + MongoDB: JWT Authentication & Authorization",
+  "description": "Node.js + MongoDB: JWT Authentication & Authorization with CRUD Application",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,7 +13,7 @@
     "authentication",
     "mongodb"
   ],
-  "author": "bezkoder",
+  "author": "alexandre",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
