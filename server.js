@@ -7,7 +7,9 @@ const app = express();
 
 var corsOptions = {
   // We accept from any origin
-  origin: "*"
+  origin: "*",
+  methods: "GET, PUT, POST, DELETE",
+  allowedHeaders: "x-access-token, content-type"
 };
 
 app.use(cors(corsOptions));
