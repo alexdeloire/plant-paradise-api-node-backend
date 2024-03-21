@@ -109,6 +109,6 @@ Git is used for version control. The project was done in sprint iterations, with
 ## History
 <sup>[(Back to top)](#table-of-contents)</sup>
 
-The different sprint iterations of the project are available in this [repository](https://github.com/alexdeloire/plant_paradise_api_node_backend).
+The different sprint iterations of the project are available in this [repository](https://github.com/alexdeloire/plant-paradise-api-node-backend).
 
-A frontend for this project was also developed. It is available in this [repository](https://github.com/alexdeloire/plant_paradise_react_frontend).
+A frontend for this project was also developed. It is available in this [repository](https://github.com/alexdeloire/plant-paradise-react-frontend).
